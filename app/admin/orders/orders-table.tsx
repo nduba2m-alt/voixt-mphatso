@@ -169,7 +169,7 @@ export default function OrdersTable({ initialOrders }: { initialOrders: Order[] 
                     </span>
                   </td>
                   <td className="px-4 py-3 text-xs" style={{ color: "#9A8F78" }}>
-                    {new Date(order.created_at).toLocaleDateString()}
+                    {new Date(order.created_at).toLocaleDateString("en-GB")}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">

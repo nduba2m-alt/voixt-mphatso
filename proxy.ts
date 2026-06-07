@@ -1,10 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isProtected = pathname.startsWith("/admin") || pathname.startsWith("/checkin");
-  if (!isProtected) return NextResponse.next();
+
+  // Never protect the login page — bail out immediately
+  if (pathname === "/admin/login") {
+    const res = NextResponse.next({ request });
+    res.headers.set("x-pathname", pathname);
+    return res;
+  }
 
   let response = NextResponse.next({ request });
 
@@ -28,15 +33,12 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/admin/login";
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/checkin/:path*"],
+  matcher: ["/admin/:path+"],
 };

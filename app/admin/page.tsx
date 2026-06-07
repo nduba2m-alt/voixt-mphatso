@@ -2,6 +2,8 @@ import { createServiceClient } from "@/lib/supabase/server";
 import DashboardCharts from "./dashboard-charts";
 import { Ticket, DollarSign, Clock, UserCheck } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 async function getStats() {
   try {
     const supabase = await createServiceClient();

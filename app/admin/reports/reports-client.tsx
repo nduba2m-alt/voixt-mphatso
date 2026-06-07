@@ -24,7 +24,7 @@ export default function ReportsClient({ orders }: { orders: Order[] }) {
     const headers = ["Reference", "Name", "Phone", "Type", "Qty", "Amount", "Status", "Date"];
     const rows = orders.map((o) => [
       o.reference_number, o.full_name, o.phone, o.ticket_type, o.quantity, o.amount, o.status,
-      new Date(o.created_at).toLocaleDateString(),
+      new Date(o.created_at).toLocaleDateString("en-GB"),
     ]);
     const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -79,7 +79,7 @@ export default function ReportsClient({ orders }: { orders: Order[] }) {
                     <td className="px-4 py-3" style={{ color: "#9A8F78" }}>{o.phone}</td>
                     <td className="px-4 py-3 uppercase text-xs" style={{ color: "#F5F0E8" }}>{o.ticket_type}</td>
                     <td className="px-4 py-3" style={{ color: "#C9A84C" }}>ZMW {Number(o.amount).toFixed(2)}</td>
-                    <td className="px-4 py-3 text-xs" style={{ color: "#9A8F78" }}>{new Date(o.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-xs" style={{ color: "#9A8F78" }}>{new Date(o.created_at).toLocaleDateString("en-GB")}</td>
                   </tr>
                 ))}
               </tbody>

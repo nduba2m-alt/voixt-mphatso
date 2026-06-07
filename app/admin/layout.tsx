@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import AdminLogout from "./logout-button";
 
 const NAV = [
@@ -9,14 +7,10 @@ const NAV = [
   { href: "/admin/tickets", label: "Tickets" },
   { href: "/admin/reports", label: "Reports" },
   { href: "/admin/cms", label: "CMS" },
-  { href: "/checkin", label: "Check-In" },
+  { href: "/admin/checkin", label: "Check-In" },
 ];
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
-
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#0A0804" }}>
       <header

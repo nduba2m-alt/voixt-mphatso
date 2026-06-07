@@ -37,7 +37,7 @@ export default async function AdminTicketsPage() {
                   </span>
                 </td>
                 <td className="px-4 py-3 text-xs" style={{ color: "#9A8F78" }}>
-                  {t.checked_in_at ? new Date(t.checked_in_at).toLocaleString() : "—"}
+                  {t.checked_in_at ? new Date(t.checked_in_at).toLocaleString("en-GB") : "—"}
                 </td>
               </tr>
             ))}

@@ -20,14 +20,26 @@ function getTimeLeft(target: Date): TimeLeft {
 
 export default function Countdown({ targetDate }: { targetDate: string }) {
   const target = new Date(targetDate);
-  const [tl, setTl] = useState<TimeLeft>(getTimeLeft(target));
+  const [tl, setTl] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
+    setTl(getTimeLeft(target));
     const id = setInterval(() => setTl(getTimeLeft(target)), 1000);
     return () => clearInterval(id);
   }, [targetDate]);
 
   const pad = (n: number) => String(n).padStart(2, "0");
+
+  if (!tl) return (
+    <div className="flex gap-3 sm:gap-6 justify-center">
+      {["Days", "Hours", "Mins", "Secs"].map((label) => (
+        <div key={label} className="text-center">
+          <div className="font-display text-4xl sm:text-6xl leading-none" style={{ color: "#C9A84C", minWidth: "2ch", display: "inline-block" }}>--</div>
+          <div className="text-xs font-body mt-1 tracking-widest uppercase" style={{ color: "#9A8F78" }}>{label}</div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div className="flex gap-3 sm:gap-6 justify-center">
